@@ -1,0 +1,23 @@
+description="Framework for automatic archive extraction, compression and management."
+url="http://www.gnome.org"
+packager="spiky <spiky@nutyx.org>"
+
+makedepends=(gtk-doc gsettings-desktop-schemas desktop-file-utils
+             gtk-update-icon-cache gtk3 hicolor-icon-theme libarchive)
+run=(gsettings-desktop-schemas desktop-file-utils gtk-update-icon-cache)
+
+name=gnome-autoar
+version=0.3.2
+
+source=(https://download.gnome.org/sources/$name/${version:0:3}/$name-$version.tar.xz)
+
+build() {
+cd $name-$version
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+
+# Obsolets libs
+rm $PKG/usr/lib/libgnome-autoar-0.la
+rm $PKG/usr/lib/libgnome-autoar-gtk-0.la
+}

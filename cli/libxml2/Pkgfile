@@ -1,0 +1,62 @@
+description="Libraries and utilities used for parsing XML files."
+url="http://xmlsoft.org/"
+
+packager="tnut <tnut@nutyx.org>"
+contributors="Pierre B, Fanch, Schrodinger72"
+
+makedepends=(python)
+
+name=libxml2
+version=2.9.10
+release=6
+
+PKGMK_GROUPS=(lib man devel doc)
+source=(http://www.linuxfromscratch.org/patches/blfs/svn/libxml2-2.9.10-security_fixes-1.patch
+	ftp://xmlsoft.org/libxml2/$name-$version.tar.gz)
+
+
+build() {
+cd $name-$version
+patch -p1 -i ../libxml2-2.9.10-security_fixes-1.patch
+sed -i '/if Py/{s/Py/(Py/;s/)/))/}' python/{types.c,libxml.c}
+sed -i 's/ TRUE/ true/' encoding.c
+
+./configure \
+    --prefix=/usr \
+    --disable-static \
+    --with-history \
+    --with-python=/usr/bin/python3
+make
+make DESTDIR=$PKG install
+rm $PKG/usr/lib/$name.la
+}
+
+lib() {
+cd $PKG
+bsdtar -cf \
+$PKGMK_PACKAGE_DIR/$name.lib${PKGMK_BUILDVER}${PKGMK_ARCH}.cards.tar \
+usr/lib/libxml2*
+
+rm usr/lib/libxml2*
+rm -d usr/lib || true
+}
+
+devel() {
+cd $PKG
+bsdtar -cf \
+$PKGMK_PACKAGE_DIR/$name.devel${PKGMK_BUILDVER}any.cards.tar \
+usr/lib/cmake usr/lib/pkgconfig usr/lib/cmake \
+usr/include usr/lib/xml2Conf.sh usr/share/aclocal
+
+rm -r usr/{share/aclocal,include,lib/{cmake,pkgconfig,xml2Conf.sh}}
+rm -d usr/lib || true
+}
+
+doc() {
+cd $PKG
+bsdtar -cf \
+$PKGMK_PACKAGE_DIR/$name.doc${PKGMK_BUILDVER}any.cards.tar \
+usr/share/doc usr/share/gtk-doc
+rm -r usr/share/{doc,gtk-doc}
+rm -d usr/share || true
+}
