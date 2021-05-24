@@ -5,7 +5,7 @@ url="https://github.com/Palakis/${_name}"
 packager="Greg"
 contributors=""
 
-makedepends=(avahi libndi-bin)
+makedepends=(avahi libndi-bin obs-studio)
 
 name=obs-ndi-bin
 _name=obs-ndi
