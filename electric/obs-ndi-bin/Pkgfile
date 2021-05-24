@@ -1,0 +1,28 @@
+description="Network A/V in OBS Studio with NewTek's NDI technology"
+url="https://github.com/Palakis/${_name}"
+
+
+packager="Greg"
+contributors=""
+
+makedepends=(avahi libndi-bin)
+
+name=obs-ndi-bin
+_name=obs-ndi
+version=4.9.1
+release=1
+_release=1
+
+source=(https://github.com/Palakis/obs-ndi/releases/download/4.9.1/obs-ndi_4.9.1-1_amd64.deb)
+
+build() {
+    cd ${SRC}
+    mkdir -p ${name}
+    tar -xJf data.tar.xz -C ${name}
+    chmod 755 $(find ${name} -type d)
+}
+
+ package() {
+	cd ${SRC}
+	cp -a ${name}/. ${PKG}
+}
