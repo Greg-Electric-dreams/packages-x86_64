@@ -10,10 +10,10 @@ makedepends=(avahi libndi-bin)
 name=obs-ndi-bin
 _name=obs-ndi
 version=4.9.1
-release=1
+release=2
 _release=1
 
-source=(https://github.com/Palakis/obs-ndi/releases/download/4.9.1/obs-ndi_4.9.1-1_amd64.deb)
+source=(https://github.com/Palakis/${_name}/releases/download/4.9.1/${_name}_${version}-${_release}_amd64.deb)
 
 build() {
     cd ${SRC}
