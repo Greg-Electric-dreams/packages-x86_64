@@ -16,10 +16,16 @@ _release=1
 source=(https://github.com/Palakis/${_name}/releases/download/4.9.1/${_name}_${version}-${_release}_amd64.deb)
 
 build() {
-    cd ${SRC}
-    mkdir -p ${name}
-    tar -xJf data.tar.xz -C ${name}
-    chmod 755 $(find ${name} -type d)
+   cd ${SRC}
+   mkdir -p ${name}
+   tar -xJf data.tar.xz -C ${name}
+
+  if [ ! -d ${name}/usr/lib/obs-plugins ]; then
+        cp -a ${name}/usr/lib/x86_64-linux-gnu/obs-plugins ${name}/usr/lib/obs-plugins    
+        rm -r ${name}/usr/lib/x86_64-linux-gnu
+  fi
+
+   chmod 755 $(find ${pkgname} -type d)
 }
 
  package() {
