@@ -6,13 +6,14 @@ contributors="spiky <spiky@nutyx.org>"
 
 makedepends=(ffmpeg jansson xorg-libxinerama libxkbcommon
              qtx11extras cmake xorg-libxcomposite
-             vlc swig python luajit fdk-aac)
+             vlc swig python luajit fdk-aac pipewire)
 
 run=(gtk-update-icon-cache x264 curl jack)
 
 
 name=obs-studio
 version=27.0.0
+release=2
 
 
 source=(https://github.com/obsproject/obs-studio/archive/refs/tags/27.0.0.tar.gz)
@@ -25,7 +26,7 @@ build() {
 
     cmake -DCMAKE_INSTALL_PREFIX="/usr" \
     -DOBS_VERSION_OVERRIDE="$version-$release" \
-    -DENABLE_PIPEWIRE=OFF \
+    -DENABLE_PIPEWIRE=ON \
     -DBUILD_VST=OFF \
     -DBUILD_BROWSER=OFF ..
     make
